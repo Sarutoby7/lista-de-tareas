@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/Vue3.js"></script>
+</head>
+<body>
+    <div id="app" class="container">
+        <h1>Lista de Tareas</h1>
+        <p :class="claseValidacion">{{ mensajeValidacion }}</p>
+
+        <div class="input-container">
+            <input type="text" v-model="nuevaTarea" placeholder="Escribe una tarea" @input="validarTarea">
+        </div>
+
+        <div class="button-container">
+            <button @click="agregarTarea" :disabled="nuevaTarea.length < 4">Agregar Tarea</button>
+            <button v-if="tareas.length > 0" @click="quitarTarea(tareas.length - 1)">Quitar Última Tarea</button>
+        </div>
+
+        <ul class="tareas-list">
+            <li v-for="(tarea, index) in tareas" :key="index" :class="{ completada: tarea.completada }" @click="alternarEstadoTarea(index)" class="tarea-item">
+                <span :class="{ subrayado: tarea.completada }">{{ tarea.texto }}</span>
+                <span>  {{ tarea.completada }}</span>
+            </li>
+        </ul>
+
+        <div class="barra-progreso">
+            <div class="barra" :class="barraClase" :style="{ width: porcentajeCompletado + '%' }"></div>
+        </div>
+        <p>{{ porcentajeCompletado }}% completado</p>
+        <p>Tareas completadas: {{ contadorTareasCompletadas }}</p>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
